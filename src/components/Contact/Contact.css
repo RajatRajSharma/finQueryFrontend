@@ -1,0 +1,13 @@
+/* Contact.css — feedback call-to-action (mailto, no backend needed) */
+
+.contact {
+  background: var(--color-accent-soft);
+}
+
+.contact__inner {
+  text-align: center;
+}
+
+.contact__btn {
+  margin-top: var(--space-xs);
+}

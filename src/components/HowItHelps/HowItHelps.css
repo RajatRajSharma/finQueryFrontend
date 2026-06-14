@@ -1,0 +1,88 @@
+/* HowItHelps.css — alternating image + text rows.
+   Visuals are placeholders for now; swap in real app screenshots later. */
+
+.how {
+  background: var(--color-surface);
+}
+
+.how__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+  margin-bottom: var(--space-lg);
+}
+
+.how__row:last-child {
+  margin-bottom: 0;
+}
+
+/* reversed row puts the visual on the left */
+.how__row--reverse .how__text {
+  order: 2;
+}
+
+.how__step {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  margin-bottom: 0.4rem;
+}
+
+.how__title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.how__desc {
+  color: var(--color-text-muted);
+  /* darken to solid black on hover */
+  transition: color 0.5s linear;
+}
+
+.how__visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  /* lift with a shadow on hover */
+  transition: box-shadow 1s ease;
+}
+
+/* media = the step's gif visual (fixed size so all 3 match) */
+.how__media {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+}
+
+/* --- hover states --- */
+
+/* description darkens to solid black when hovering the step row */
+.how__row:hover .how__desc {
+  color: #000;
+}
+
+/* the visual card gains a shadow only when hovered directly */
+.how__visual:hover {
+  box-shadow: 0 14px 34px rgba(26, 34, 48, 0.18);
+}
+
+@media (max-width: 860px) {
+  .how__row,
+  .how__row--reverse {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+  /* keep text above the visual on mobile regardless of order */
+  .how__row--reverse .how__text {
+    order: 0;
+  }
+}

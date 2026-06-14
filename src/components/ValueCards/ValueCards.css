@@ -1,0 +1,36 @@
+/* ValueCards.css — three value-proposition cards */
+
+.value__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.value__card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.value__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(26, 34, 48, 0.08);
+}
+
+.value__card-title {
+  font-size: 1.15rem;
+  margin-bottom: var(--space-sm);
+}
+
+.value__card-text {
+  color: var(--color-text-muted);
+  font-size: 0.97rem;
+}
+
+@media (max-width: 860px) {
+  .value__grid {
+    grid-template-columns: 1fr;
+  }
+}

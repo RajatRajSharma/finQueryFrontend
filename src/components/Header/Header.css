@@ -1,0 +1,63 @@
+/* Header.css — sticky top navigation bar */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.site-header__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.site-header__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.site-header__nav {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.site-header__nav a {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.site-header__nav a:hover {
+  color: var(--color-text);
+}
+
+/* slightly tighter than the base .btn padding (1.6rem) */
+.site-header__cta {
+  padding: 0.4rem 1.2rem;
+}
+
+/* hide text nav on small screens; keep logo + CTA */
+@media (max-width: 720px) {
+  .site-header__nav {
+    display: none;
+  }
+}
