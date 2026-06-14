@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import AppHeader from "../../components/AppHeader/AppHeader";
-import DocumentsPanel from "../../components/DocumentsPanel/DocumentsPanel";
-import ChatArea from "../../components/ChatArea/ChatArea";
-import type { DocItem, Message } from "./types";
+import AppHeader from "@/app/layout/AppHeader/AppHeader";
+import { DocumentsPanel } from "@/features/documents";
+import type { DocItem } from "@/features/documents";
+import { ChatArea } from "@/features/chat";
+import type { Message } from "@/features/chat";
+import { newId } from "@/shared/lib/id";
 import "./Chat.css";
-
-function newId() {
-  return Math.random().toString(36).slice(2);
-}
 
 function Chat() {
   const [docs, setDocs] = useState<DocItem[]>([]);

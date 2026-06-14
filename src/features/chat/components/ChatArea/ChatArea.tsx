@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import type { Message } from "../../pages/Chat/types";
+import type { Message } from "../../types";
 import "./ChatArea.css";
 
 interface Props {

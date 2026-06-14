@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import type { DocItem } from "../../pages/Chat/types";
+import type { DocItem } from "../../types";
 import "./DocumentsPanel.css";
 
 interface Props {

@@ -11,26 +11,6 @@
   flex-shrink: 0;
 }
 
-.app-header__logo {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
-.app-header__mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: var(--radius-sm);
-  background: var(--color-accent);
-  color: #fff;
-  font-size: 0.8rem;
-}
-
 /* Chat / Evaluation toggle */
 .app-header__nav {
   display: flex;

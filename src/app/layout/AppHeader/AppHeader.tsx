@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import { Logo } from "@/components/ui";
 import "./AppHeader.css";
 
 function tabClass({ isActive }: { isActive: boolean }) {
@@ -8,10 +9,7 @@ function tabClass({ isActive }: { isActive: boolean }) {
 function AppHeader() {
   return (
     <header className="app-header">
-      <Link to="/" className="app-header__logo">
-        <span className="app-header__mark">FQ</span>
-        <span className="app-header__name">FinQuery</span>
-      </Link>
+      <Logo to="/" />
 
       {/* toggle between Chat and Evaluation */}
       <nav className="app-header__nav">

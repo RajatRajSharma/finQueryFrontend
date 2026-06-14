@@ -1,9 +1,10 @@
-import AppHeader from "../../components/AppHeader/AppHeader";
-import MetricCards from "../../components/MetricCards/MetricCards";
-import type { Metric } from "../../components/MetricCards/MetricCards";
-import MetricBarChart from "../../components/MetricBarChart/MetricBarChart";
-import QuestionsTable from "../../components/QuestionsTable/QuestionsTable";
-import type { QuestionRow } from "../../components/QuestionsTable/QuestionsTable";
+import AppHeader from "@/app/layout/AppHeader/AppHeader";
+import {
+  MetricCards,
+  MetricBarChart,
+  QuestionsTable,
+} from "@/features/evaluation";
+import type { Metric, QuestionRow } from "@/features/evaluation";
 import "./Evaluation.css";
 
 // Demo RAGAS scores — replace with real values once the eval pipeline is wired.

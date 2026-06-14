@@ -1,10 +1,4 @@
-// Shared types for the Chat page (documents + conversation).
-
-export interface DocItem {
-  id: string;
-  name: string;
-  status: "processing" | "ready";
-}
+// Types for the chat feature.
 
 export interface Citation {
   doc: string;

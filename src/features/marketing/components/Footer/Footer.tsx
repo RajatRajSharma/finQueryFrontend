@@ -1,13 +1,11 @@
+import { Logo } from "@/components/ui";
 import "./Footer.css";
 
 function Footer() {
   return (
     <footer className="site-footer">
       <div className="container site-footer__inner">
-        <div className="site-footer__brand">
-          <span className="site-footer__mark">FQ</span>
-          <span>FinQuery</span>
-        </div>
+        <Logo size="sm" />
         <p className="site-footer__note">
           Chat with annual reports, grounded in the source documents.
         </p>

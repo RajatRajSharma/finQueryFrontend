@@ -1,0 +1,35 @@
+/* Logo.css — shared brand mark + wordmark */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+}
+
+.logo__name {
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.logo__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.logo__mark--md {
+  width: 32px;
+  height: 32px;
+  font-size: 0.85rem;
+}
+
+.logo__mark--sm {
+  width: 28px;
+  height: 28px;
+  font-size: 0.75rem;
+}

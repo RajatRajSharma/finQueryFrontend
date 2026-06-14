@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
+import { Logo } from "@/components/ui";
 import "./Header.css";
 
 function Header() {
   return (
     <header className="site-header">
       <div className="container site-header__inner">
-        <Link to="/" className="site-header__logo">
-          <span className="site-header__mark">FQ</span>
-          <span className="site-header__name">FinQuery</span>
-        </Link>
+        <Logo to="/" />
 
         <nav className="site-header__nav">
           <a href="#value">Why</a>

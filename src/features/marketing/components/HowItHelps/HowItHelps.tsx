@@ -1,7 +1,7 @@
 import "./HowItHelps.css";
-import uploadGif from "../../assets/gif-upload-document.gif";
-import askGif from "../../assets/gif-ask-qn.gif";
-import doneGif from "../../assets/gif-task-done.gif";
+import uploadGif from "@/assets/gif-upload-document.gif";
+import askGif from "@/assets/gif-ask-qn.gif";
+import doneGif from "@/assets/gif-task-done.gif";
 
 const steps = [
   {
