@@ -1,0 +1,42 @@
+/* QuestionsTable.css — per-question scores table */
+
+.qtable-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.qtable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.qtable th,
+.qtable td {
+  padding: 0.8rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.qtable thead th {
+  background: var(--color-surface);
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.qtable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.qtable tbody tr:hover {
+  background: var(--color-accent-soft);
+}
+
+.qtable__q {
+  text-align: left;
+  font-weight: 500;
+  min-width: 220px;
+}

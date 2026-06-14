@@ -121,7 +121,13 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background: #fff;
-  cursor: not-allowed;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.docs__eval-link:hover {
+  color: var(--color-accent-dark);
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
 }
 
 @media (max-width: 760px) {

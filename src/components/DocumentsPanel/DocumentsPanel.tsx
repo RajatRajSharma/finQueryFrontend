@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import type { DocItem } from "../../pages/Chat/types";
 import "./DocumentsPanel.css";
 
@@ -72,12 +73,13 @@ function DocumentsPanel({ docs, onUpload }: Props) {
         </ul>
       )}
 
-      <span
+      <Link
+        to="/app/evaluation"
         className="docs__eval-link"
-        title="Evaluation dashboard — coming soon"
+        title="Open the evaluation dashboard"
       >
         📊 Eval dashboard
-      </span>
+      </Link>
     </aside>
   );
 }

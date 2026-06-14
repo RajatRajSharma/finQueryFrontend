@@ -1,5 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./AppHeader.css";
+
+function tabClass({ isActive }: { isActive: boolean }) {
+  return "app-header__tab" + (isActive ? " app-header__tab--active" : "");
+}
 
 function AppHeader() {
   return (
@@ -9,15 +13,14 @@ function AppHeader() {
         <span className="app-header__name">FinQuery</span>
       </Link>
 
-      {/* toggle between Chat and Evaluation (eval page not built yet) */}
+      {/* toggle between Chat and Evaluation */}
       <nav className="app-header__nav">
-        <span className="app-header__tab app-header__tab--active">Chat</span>
-        <span
-          className="app-header__tab app-header__tab--disabled"
-          title="Coming soon"
-        >
+        <NavLink to="/app" end className={tabClass}>
+          Chat
+        </NavLink>
+        <NavLink to="/app/evaluation" className={tabClass}>
           Evaluation
-        </span>
+        </NavLink>
       </nav>
 
       <Link to="/" className="app-header__back">

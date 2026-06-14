@@ -1,0 +1,67 @@
+/* MetricBarChart.css — simple horizontal bars (no chart library) */
+
+.barchart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+}
+
+.barchart__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.barchart__label {
+  flex-shrink: 0;
+  width: 150px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.barchart__track {
+  flex: 1;
+  height: 28px;
+  background: var(--color-surface);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.barchart__fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent),
+    var(--color-accent-dark)
+  );
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* animate the bars growing on first render */
+  animation: barchart-grow 0.8s ease;
+}
+
+.barchart__value {
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding-right: 0.7rem;
+}
+
+@keyframes barchart-grow {
+  from {
+    width: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .barchart__label {
+    width: 110px;
+    font-size: 0.82rem;
+  }
+}
