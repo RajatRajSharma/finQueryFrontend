@@ -1,0 +1,75 @@
+/* AppHeader.css — top bar for the app workspace */
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  height: 60px;
+  padding: 0 var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.app-header__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.app-header__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+/* Chat / Evaluation toggle */
+.app-header__nav {
+  display: flex;
+  gap: 0.4rem;
+  background: var(--color-surface);
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+}
+
+.app-header__tab {
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.app-header__tab--active {
+  background: #fff;
+  color: var(--color-accent-dark);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.app-header__tab--disabled {
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.app-header__back {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.app-header__back:hover {
+  color: var(--color-accent);
+}
+
+@media (max-width: 640px) {
+  .app-header__back {
+    display: none;
+  }
+}

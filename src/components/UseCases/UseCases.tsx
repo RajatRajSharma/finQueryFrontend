@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./UseCases.css";
 
 // Each chip opens the app with the question pre-filled via a query param.
@@ -20,13 +21,13 @@ function UseCases() {
 
         <div className="use-cases__chips">
           {examples.map((q) => (
-            <a
+            <Link
               className="use-cases__chip"
               key={q}
-              href={`/app?q=${encodeURIComponent(q)}`}
+              to={`/app?q=${encodeURIComponent(q)}`}
             >
               {q}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

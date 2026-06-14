@@ -1,0 +1,133 @@
+/* DocumentsPanel.css — left panel: upload + uploaded reports list */
+
+.docs {
+  width: 280px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  overflow-y: auto;
+}
+
+.docs__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* upload / drag-drop zone */
+.docs__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: var(--space-md) var(--space-sm);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.docs__dropzone:hover,
+.docs__dropzone--active {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.docs__dropzone-icon {
+  font-size: 1.4rem;
+  color: var(--color-accent);
+}
+
+.docs__dropzone-text {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.docs__empty {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: var(--space-xs);
+}
+
+/* uploaded files list */
+.docs__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.docs__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.65rem;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+}
+
+.docs__file-icon {
+  flex-shrink: 0;
+}
+
+.docs__file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.docs__check {
+  color: #16a34a;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* small spinner shown during "ingestion" */
+.docs__spinner {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: docs-spin 0.7s linear infinite;
+}
+
+@keyframes docs-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* eval dashboard link pinned to the bottom */
+.docs__eval-link {
+  margin-top: auto;
+  padding: 0.6rem;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  cursor: not-allowed;
+}
+
+@media (max-width: 760px) {
+  .docs {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+}

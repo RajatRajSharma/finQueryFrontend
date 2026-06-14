@@ -1,0 +1,135 @@
+/* ChatArea.css — center column: conversation + input bar */
+
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #fff;
+}
+
+.chat__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* empty state */
+.chat__empty {
+  margin: auto;
+  text-align: center;
+  max-width: 420px;
+  color: var(--color-text-muted);
+}
+
+.chat__empty-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-xs);
+}
+
+.chat__empty-title {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin-bottom: 0.4rem;
+}
+
+.chat__empty-text {
+  font-size: 0.95rem;
+}
+
+/* messages */
+.chat__msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 75%;
+}
+
+.chat__msg--user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.chat__msg--assistant {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.chat__bubble {
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.chat__msg--user .chat__bubble {
+  background: var(--color-accent);
+  color: #fff;
+  border-bottom-right-radius: 3px;
+}
+
+.chat__msg--assistant .chat__bubble {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-bottom-left-radius: 3px;
+}
+
+/* citation chips */
+.chat__citations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.chat__cite {
+  font-size: 0.78rem;
+  color: var(--color-accent-dark);
+  background: var(--color-accent-soft);
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+}
+
+/* input bar */
+.chat__inputbar {
+  display: flex;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  border-top: 1px solid var(--color-border);
+  background: #fff;
+}
+
+.chat__input {
+  flex: 1;
+  resize: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  max-height: 140px;
+}
+
+.chat__input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.chat__input:disabled {
+  background: var(--color-surface);
+  cursor: not-allowed;
+}
+
+.chat__send {
+  align-self: flex-end;
+}
+
+.chat__send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

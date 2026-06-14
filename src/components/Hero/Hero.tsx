@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Hero.css";
 
 function Hero() {
@@ -16,9 +17,9 @@ function Hero() {
             No more reading 200 pages.
           </p>
           <div className="hero__actions">
-            <a href="/app" className="btn btn-primary">
+            <Link to="/app" className="btn btn-primary">
               Try it now
-            </a>
+            </Link>
             <a href="#how" className="btn btn-outline">
               See how it works
             </a>
