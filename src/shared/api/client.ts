@@ -5,6 +5,7 @@
 // a 503 when Gemini/Qdrant is down). Everything else imports these functions.
 
 import type {
+  ApiCitation,
   IngestionResponse,
   QueryResponse,
   ReadinessResponse,
@@ -60,6 +61,62 @@ export async function askQuestion(
   });
   if (!res.ok) throw await toError(res);
   return (await res.json()) as QueryResponse;
+}
+
+export interface StreamHandlers {
+  onToken: (text: string) => void;
+  onCitations: (citations: ApiCitation[]) => void;
+  onError: (message: string) => void;
+}
+
+/** Dispatch one parsed SSE event block to the right handler. */
+function dispatchEvent(block: string, handlers: StreamHandlers): boolean {
+  let event = "message";
+  const dataLines: string[] = [];
+  for (const line of block.split("\n")) {
+    if (line.startsWith(":")) continue; // comment / keep-alive ping
+    if (line.startsWith("event:")) event = line.slice(6).trim();
+    else if (line.startsWith("data:")) dataLines.push(line.slice(5).replace(/^ /, ""));
+  }
+  const data = dataLines.join("\n"); // SSE rejoins multi-line data with \n
+  if (event === "token") handlers.onToken(data);
+  else if (event === "citations") handlers.onCitations(JSON.parse(data) as ApiCitation[]);
+  else if (event === "error") handlers.onError(data);
+  else if (event === "done") return true;
+  return false;
+}
+
+/**
+ * POST /query/stream — stream the answer over SSE.
+ * EventSource is GET-only, so we read the response body as a stream and parse
+ * SSE frames manually. Resolves when the `done` event arrives or the stream ends.
+ */
+export async function askQuestionStream(
+  question: string,
+  handlers: StreamHandlers,
+  topK?: number
+): Promise<void> {
+  const res = await fetch(`${BASE_URL}/query/stream`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question, top_k: topK ?? null }),
+  });
+  if (!res.ok || !res.body) throw await toError(res);
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer = (buffer + decoder.decode(value, { stream: true })).replace(/\r\n/g, "\n");
+    let sep: number;
+    while ((sep = buffer.indexOf("\n\n")) !== -1) {
+      const block = buffer.slice(0, sep);
+      buffer = buffer.slice(sep + 2);
+      if (dispatchEvent(block, handlers)) return;
+    }
+  }
 }
 
 /** GET /health/ready — is the backend's vector store reachable? */

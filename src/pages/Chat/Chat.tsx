@@ -6,7 +6,7 @@ import type { DocItem } from "@/features/documents";
 import { ChatArea } from "@/features/chat";
 import type { Message } from "@/features/chat";
 import { newId } from "@/shared/lib/id";
-import { uploadPdf, askQuestion, ApiError } from "@/shared/api/client";
+import { uploadPdf, askQuestionStream, ApiError } from "@/shared/api/client";
 import "./Chat.css";
 
 function Chat() {
@@ -81,35 +81,33 @@ function Chat() {
     setInput("");
     setBusy(true);
 
-    askQuestion(question)
-      .then((res) => {
-        const citations = res.citations.map((c) => ({
-          doc: c.source_file,
-          page: c.page_number,
-          company: c.company,
-          snippet: c.snippet,
-          score: c.score,
-        }));
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === pendingId
-              ? { id: pendingId, role: "assistant", text: res.answer, citations }
-              : m
-          )
-        );
-      })
+    const patch = (fn: (m: Message) => Message) =>
+      setMessages((prev) => prev.map((m) => (m.id === pendingId ? fn(m) : m)));
+
+    askQuestionStream(question, {
+      // Append each token; the first one clears the "Searching…" placeholder.
+      onToken: (delta) =>
+        patch((m) => ({ ...m, pending: false, text: (m.pending ? "" : m.text) + delta })),
+      onCitations: (cites) =>
+        patch((m) => ({
+          ...m,
+          citations: cites.map((c) => ({
+            doc: c.source_file,
+            page: c.page_number,
+            company: c.company,
+            snippet: c.snippet,
+            score: c.score,
+          })),
+        })),
+      onError: (msg) =>
+        patch((m) => ({ ...m, pending: false, error: true, text: msg })),
+    })
       .catch((err: unknown) => {
         const msg =
           err instanceof ApiError
             ? err.message
             : "Something went wrong reaching the backend. Please try again.";
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === pendingId
-              ? { id: pendingId, role: "assistant", text: msg, error: true }
-              : m
-          )
-        );
+        patch((m) => ({ ...m, pending: false, error: true, text: msg }));
       })
       .finally(() => setBusy(false));
   }
