@@ -68,9 +68,19 @@ function ChatArea({
               {m.citations && m.citations.length > 0 && (
                 <div className="chat__citations">
                   {m.citations.map((c, i) => (
-                    <span className="chat__cite" key={i}>
-                      📄 {c.doc} · p.&nbsp;{c.page}
-                    </span>
+                    <details className="chat__cite" key={i}>
+                      <summary className="chat__cite-summary">
+                        📄 {c.doc} · p.&nbsp;{c.page}
+                        {typeof c.score === "number" && (
+                          <span className="chat__cite-score">
+                            {Math.round(c.score * 100)}%
+                          </span>
+                        )}
+                      </summary>
+                      {c.snippet && (
+                        <p className="chat__cite-snippet">{c.snippet}</p>
+                      )}
+                    </details>
                   ))}
                 </div>
               )}

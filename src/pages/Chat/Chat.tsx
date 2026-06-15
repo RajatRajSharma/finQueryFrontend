@@ -86,6 +86,9 @@ function Chat() {
         const citations = res.citations.map((c) => ({
           doc: c.source_file,
           page: c.page_number,
+          company: c.company,
+          snippet: c.snippet,
+          score: c.score,
         }));
         setMessages((prev) =>
           prev.map((m) =>

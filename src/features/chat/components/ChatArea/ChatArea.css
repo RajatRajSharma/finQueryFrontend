@@ -107,11 +107,48 @@
 
 .chat__cite {
   font-size: 0.78rem;
+}
+
+/* the clickable pill (the <summary>) */
+.chat__cite-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  list-style: none;
   color: var(--color-accent-dark);
   background: var(--color-accent-soft);
   border: 1px solid var(--color-border);
   padding: 0.25rem 0.6rem;
   border-radius: 999px;
+  user-select: none;
+}
+
+.chat__cite-summary::-webkit-details-marker {
+  display: none;
+}
+
+.chat__cite-summary:hover {
+  border-color: var(--color-accent);
+}
+
+.chat__cite-score {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+/* snippet revealed when the chip is expanded */
+.chat__cite-snippet {
+  margin: 0.4rem 0 0;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  max-width: 46ch;
 }
 
 /* input bar */
