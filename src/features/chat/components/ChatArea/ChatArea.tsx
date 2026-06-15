@@ -58,7 +58,13 @@ function ChatArea({
         ) : (
           messages.map((m) => (
             <div className={`chat__msg chat__msg--${m.role}`} key={m.id}>
-              <div className="chat__bubble">{m.text}</div>
+              <div
+                className={`chat__bubble${m.pending ? " chat__bubble--pending" : ""}${
+                  m.error ? " chat__bubble--error" : ""
+                }`}
+              >
+                {m.text}
+              </div>
               {m.citations && m.citations.length > 0 && (
                 <div className="chat__citations">
                   {m.citations.map((c, i) => (

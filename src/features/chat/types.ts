@@ -10,4 +10,6 @@ export interface Message {
   role: "user" | "assistant";
   text: string;
   citations?: Citation[];
+  pending?: boolean; // assistant bubble waiting on the backend
+  error?: boolean; // assistant bubble that reports a failure
 }

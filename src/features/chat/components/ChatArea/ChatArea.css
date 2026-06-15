@@ -77,6 +77,26 @@
   border-bottom-left-radius: 3px;
 }
 
+/* assistant bubble waiting on the backend */
+.chat__bubble--pending {
+  color: var(--color-text-muted);
+  font-style: italic;
+  animation: chat-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes chat-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* assistant bubble reporting a failure */
+.chat__bubble--error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
 /* citation chips */
 .chat__citations {
   display: flex;

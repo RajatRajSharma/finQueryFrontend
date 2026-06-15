@@ -93,6 +93,13 @@
   flex-shrink: 0;
 }
 
+.docs__error {
+  color: #dc2626;
+  font-weight: 700;
+  flex-shrink: 0;
+  cursor: help;
+}
+
 /* small spinner shown during "ingestion" */
 .docs__spinner {
   width: 14px;

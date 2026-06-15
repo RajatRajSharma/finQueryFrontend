@@ -58,13 +58,28 @@ function DocumentsPanel({ docs, onUpload }: Props) {
           {docs.map((doc) => (
             <li className="docs__item" key={doc.id}>
               <span className="docs__file-icon">📄</span>
-              <span className="docs__file-name" title={doc.name}>
+              <span
+                className="docs__file-name"
+                title={doc.detail ? `${doc.name} — ${doc.detail}` : doc.name}
+              >
                 {doc.name}
               </span>
               {doc.status === "processing" ? (
                 <span className="docs__spinner" aria-label="Processing" />
+              ) : doc.status === "error" ? (
+                <span
+                  className="docs__error"
+                  aria-label="Failed"
+                  title={doc.detail}
+                >
+                  ✕
+                </span>
               ) : (
-                <span className="docs__check" aria-label="Ready">
+                <span
+                  className="docs__check"
+                  aria-label="Ready"
+                  title={doc.detail}
+                >
                   ✓
                 </span>
               )}
