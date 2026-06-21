@@ -41,6 +41,53 @@
   border-radius: 999px;
 }
 
+.eval__badge--live {
+  color: #166534;
+  background: #dcfce7;
+  border-color: #bbf7d0;
+}
+.eval__badge--stale {
+  color: #92400e;
+  background: #fef3c7;
+  border-color: #fde68a;
+}
+.eval__badge--running {
+  color: var(--color-accent-dark);
+}
+
+.eval__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.eval__meta {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.eval__error {
+  margin-top: var(--space-sm);
+  padding: 0.6rem 0.9rem;
+  font-size: 0.9rem;
+  color: #b91c1c;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-sm);
+}
+
+.eval__empty {
+  margin-top: var(--space-lg);
+  padding: var(--space-lg);
+  text-align: center;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+}
+
 .eval__section {
   margin-bottom: var(--space-lg);
 }

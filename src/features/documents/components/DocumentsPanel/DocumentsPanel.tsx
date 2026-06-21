@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { DocItem } from "../../types";
+import { MAX_DOCS } from "@/shared/constants";
 import "./DocumentsPanel.css";
 
 interface Props {
@@ -11,10 +12,12 @@ interface Props {
 function DocumentsPanel({ docs, onUpload }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
+  const atLimit = docs.length >= MAX_DOCS;
 
   function handleDrop(e: React.DragEvent) {
     e.preventDefault();
     setDragging(false);
+    if (atLimit) return;
     if (e.dataTransfer.files.length) onUpload(e.dataTransfer.files);
   }
 
@@ -23,20 +26,28 @@ function DocumentsPanel({ docs, onUpload }: Props) {
       <h2 className="docs__title">Documents</h2>
 
       <div
-        className={`docs__dropzone${dragging ? " docs__dropzone--active" : ""}`}
+        className={`docs__dropzone${dragging ? " docs__dropzone--active" : ""}${
+          atLimit ? " docs__dropzone--disabled" : ""
+        }`}
         onDragOver={(e) => {
           e.preventDefault();
-          setDragging(true);
+          if (!atLimit) setDragging(true);
         }}
         onDragLeave={() => setDragging(false)}
         onDrop={handleDrop}
-        onClick={() => inputRef.current?.click()}
+        onClick={() => !atLimit && inputRef.current?.click()}
       >
         <span className="docs__dropzone-icon">⬆</span>
         <span className="docs__dropzone-text">
-          <strong>Upload PDF</strong>
-          <br />
-          or drag &amp; drop here
+          {atLimit ? (
+            <strong>Limit reached ({MAX_DOCS} max)</strong>
+          ) : (
+            <>
+              <strong>Upload PDF</strong>
+              <br />
+              or drag &amp; drop here
+            </>
+          )}
         </span>
         <input
           ref={inputRef}

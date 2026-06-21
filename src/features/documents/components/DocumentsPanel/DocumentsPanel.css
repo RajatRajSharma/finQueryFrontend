@@ -40,6 +40,16 @@
   background: var(--color-accent-soft);
 }
 
+.docs__dropzone--disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.docs__dropzone--disabled:hover {
+  border-color: var(--color-border);
+  background: #fff;
+}
+
 .docs__dropzone-icon {
   font-size: 1.4rem;
   color: var(--color-accent);

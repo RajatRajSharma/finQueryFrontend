@@ -6,14 +6,16 @@
 
 import type {
   ApiCitation,
+  EvalResponse,
   IngestionResponse,
   QueryResponse,
   ReadinessResponse,
 } from "./types";
-
-const BASE_URL = (
-  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000"
-).replace(/\/$/, "");
+import {
+  API_BASE_URL,
+  EVAL_API_BASE_URL,
+  API_ENDPOINTS,
+} from "@/shared/constants";
 
 /** Error carrying the HTTP status so callers can branch (e.g. 503 vs 400). */
 export class ApiError extends Error {
@@ -41,7 +43,7 @@ async function toError(res: Response): Promise<ApiError> {
 export async function uploadPdf(file: File): Promise<IngestionResponse> {
   const form = new FormData();
   form.append("file", file);
-  const res = await fetch(`${BASE_URL}/upload`, {
+  const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.upload}`, {
     method: "POST",
     body: form,
   });
@@ -54,7 +56,7 @@ export async function askQuestion(
   question: string,
   topK?: number
 ): Promise<QueryResponse> {
-  const res = await fetch(`${BASE_URL}/query`, {
+  const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.query}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question, top_k: topK ?? null }),
@@ -96,7 +98,7 @@ export async function askQuestionStream(
   handlers: StreamHandlers,
   topK?: number
 ): Promise<void> {
-  const res = await fetch(`${BASE_URL}/query/stream`, {
+  const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.queryStream}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ question, top_k: topK ?? null }),
@@ -119,9 +121,27 @@ export async function askQuestionStream(
   }
 }
 
+/** GET /evals — the last cached RAGAS run, or null if none exists yet (404). */
+export async function getEvals(): Promise<EvalResponse | null> {
+  const res = await fetch(`${EVAL_API_BASE_URL}${API_ENDPOINTS.evals}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw await toError(res);
+  return (await res.json()) as EvalResponse;
+}
+
+/** POST /evals/run — trigger a fresh eval in the background (returns immediately). */
+export async function runEvals(asBaseline = false): Promise<void> {
+  const res = await fetch(
+    `${EVAL_API_BASE_URL}${API_ENDPOINTS.evalsRun}?as_baseline=${asBaseline}`,
+    { method: "POST" }
+  );
+  // 409 = a run is already in progress; treat as "already running", not an error.
+  if (!res.ok && res.status !== 409) throw await toError(res);
+}
+
 /** GET /health/ready — is the backend's vector store reachable? */
 export async function checkReady(): Promise<ReadinessResponse> {
-  const res = await fetch(`${BASE_URL}/health/ready`);
+  const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.ready}`);
   if (!res.ok) throw await toError(res);
   return (await res.json()) as ReadinessResponse;
 }

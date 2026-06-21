@@ -7,6 +7,7 @@ import { ChatArea } from "@/features/chat";
 import type { Message } from "@/features/chat";
 import { newId } from "@/shared/lib/id";
 import { uploadPdf, askQuestionStream, ApiError } from "@/shared/api/client";
+import { MAX_DOCS } from "@/shared/constants";
 import "./Chat.css";
 
 function Chat() {
@@ -28,7 +29,12 @@ function Chat() {
   // Real ingestion: add each file as "processing", POST it to /upload, then
   // flip to "ready" (with a chunk count) or "error" with the backend's message.
   function handleUpload(files: FileList) {
-    const added: DocItem[] = Array.from(files).map((f) => ({
+    // Only accept up to the remaining slots under the MAX_DOCS cap; ignore extras.
+    const remaining = MAX_DOCS - docs.length;
+    if (remaining <= 0) return;
+    const accepted = Array.from(files).slice(0, remaining);
+
+    const added: DocItem[] = accepted.map((f) => ({
       id: newId(),
       name: f.name,
       status: "processing" as const,
@@ -36,7 +42,7 @@ function Chat() {
     setDocs((prev) => [...prev, ...added]);
 
     added.forEach((doc, i) => {
-      const file = files[i];
+      const file = accepted[i];
       uploadPdf(file)
         .then((res) => {
           if (res.chunks_stored === 0) {

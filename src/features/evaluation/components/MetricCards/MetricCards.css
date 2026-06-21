@@ -2,7 +2,8 @@
 
 .metric-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* auto-fit so 3 or 4 metrics both lay out cleanly */
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: var(--space-md);
 }
 

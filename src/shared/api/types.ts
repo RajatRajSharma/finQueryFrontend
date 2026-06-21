@@ -26,3 +26,27 @@ export interface ReadinessResponse {
   status: "ready" | "degraded";
   dependencies: Record<string, boolean>;
 }
+
+// GET /evals — RAGAS evaluation (camelCase, mirrors EvalResponse).
+export interface EvalQuestionRow {
+  question: string;
+  answer?: string;
+  groundTruth?: string;
+  faithfulness?: number;
+  answerRelevancy?: number;
+  contextPrecision?: number;
+  contextRecall?: number;
+  retrievedContexts?: { doc: string; page: number; snippet: string }[];
+}
+
+export interface EvalResponse {
+  runId: string;
+  createdAt: string;
+  questionCount: number;
+  metrics: Record<string, number>;       // camelCase metric -> averaged score
+  config: Record<string, unknown>;        // model, embeddingModel, reranker, hybrid, topK
+  questions: EvalQuestionRow[];
+  baseline: Record<string, number> | null;
+  stale: boolean;
+  running: boolean;
+}
