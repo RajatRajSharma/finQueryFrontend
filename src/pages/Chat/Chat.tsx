@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import AppHeader from "@/app/layout/AppHeader/AppHeader";
 import { DocumentsPanel } from "@/features/documents";
@@ -7,17 +7,63 @@ import { ChatArea } from "@/features/chat";
 import type { Message } from "@/features/chat";
 import { newId } from "@/shared/lib/id";
 import { uploadPdf, askQuestionStream, ApiError } from "@/shared/api/client";
-import { MAX_DOCS } from "@/shared/constants";
+import { usePersistentState } from "@/shared/hooks/usePersistentState";
+import { MAX_DOCS, CHAT_CACHE_TTL_MS } from "@/shared/constants";
 import "./Chat.css";
 
 function Chat() {
   const [searchParams] = useSearchParams();
-  const [docs, setDocs] = useState<DocItem[]>([]);
-  const [messages, setMessages] = useState<Message[]>([]);
+  // Persisted across navigation / reloads (1-week cache) so messages aren't lost
+  // and uploaded docs don't need re-uploading.
+  const [docs, setDocs] = usePersistentState<DocItem[]>(
+    "finquery.chat.docs",
+    [],
+    CHAT_CACHE_TTL_MS
+  );
+  const [messages, setMessages] = usePersistentState<Message[]>(
+    "finquery.chat.messages",
+    [],
+    CHAT_CACHE_TTL_MS
+  );
   // pre-fill the input from a ?q= param (used by the Home example chips),
   // read once on mount so we don't fight the user's later edits.
   const [input, setInput] = useState(() => searchParams.get("q") ?? "");
   const [busy, setBusy] = useState(false);
+
+  // Restored state may hold work that was mid-flight when the app was last
+  // closed/navigated away (the stream/upload didn't resume). Heal it once on
+  // mount so nothing is stuck on a spinner forever.
+  useEffect(() => {
+    setMessages((prev) =>
+      prev.some((m) => m.pending)
+        ? prev.map((m) =>
+            m.pending
+              ? {
+                  ...m,
+                  pending: false,
+                  error: true,
+                  text: "Interrupted — please ask again.",
+                }
+              : m
+          )
+        : prev
+    );
+    setDocs((prev) =>
+      prev.some((d) => d.status === "processing")
+        ? prev.map((d) =>
+            d.status === "processing"
+              ? {
+                  ...d,
+                  status: "error" as const,
+                  detail: "Upload interrupted — please re-upload.",
+                }
+              : d
+          )
+        : prev
+    );
+    // run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const readyDocs = docs.filter((d) => d.status === "ready");
   const canChat = readyDocs.length > 0 && !busy;
@@ -67,6 +113,16 @@ function Chat() {
           patchDoc(doc.id, { status: "error", detail: msg });
         });
     });
+  }
+
+  // Start a fresh conversation. Keeps the uploaded docs (they're already indexed
+  // in the backend) so the user doesn't have to re-upload — only the chat clears.
+  function handleClear() {
+    if (messages.length === 0) return;
+    if (!window.confirm("Start a new chat? This clears the current conversation."))
+      return;
+    setMessages([]);
+    setInput("");
   }
 
   // Real query: push the question + a pending assistant bubble, call /query,
@@ -130,6 +186,7 @@ function Chat() {
           hasDocs={docs.length > 0}
           onInputChange={setInput}
           onSend={handleSend}
+          onClear={handleClear}
         />
       </div>
     </div>

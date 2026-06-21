@@ -68,6 +68,17 @@
   color: var(--color-text-muted);
 }
 
+.eval__caveat {
+  margin-top: var(--space-sm);
+  max-width: 560px;
+  font-size: 0.82rem;
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+}
+
 .eval__error {
   margin-top: var(--space-sm);
   padding: 0.6rem 0.9rem;

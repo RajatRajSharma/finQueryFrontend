@@ -8,6 +8,31 @@
   background: #fff;
 }
 
+/* top bar with the "New chat" action */
+.chat__topbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-xs) var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  background: #fff;
+}
+
+.chat__new {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-accent-dark);
+  background: var(--color-accent-soft);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.chat__new:hover {
+  border-color: var(--color-accent);
+}
+
 .chat__messages {
   flex: 1;
   overflow-y: auto;

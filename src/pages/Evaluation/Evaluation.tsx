@@ -4,6 +4,7 @@ import {
   MetricCards,
   MetricBarChart,
   QuestionsTable,
+  FALLBACK_EVAL,
 } from "@/features/evaluation";
 import type { Metric, QuestionRow } from "@/features/evaluation";
 import { getEvals, runEvals, ApiError } from "@/shared/api/client";
@@ -67,9 +68,12 @@ function Evaluation() {
 
   useEffect(() => {
     let alive = true;
+    // Fall back to the bundled cached run when no live eval backend is
+    // reachable (returns null on 404, or throws when the host is down), so the
+    // page always shows real numbers instead of an empty/error state.
     getEvals()
-      .then((d) => alive && setData(d))
-      .catch((e) => alive && setError(errMsg(e)))
+      .then((d) => alive && setData(d ?? FALLBACK_EVAL))
+      .catch(() => alive && setData(FALLBACK_EVAL))
       .finally(() => alive && setLoading(false));
     return () => {
       alive = false;
@@ -127,7 +131,8 @@ function Evaluation() {
               </button>
               {data && (
                 <span className="eval__meta">
-                  {data.questionCount} questions · run{" "}
+                  scored on {data.questionCount} question
+                  {data.questionCount === 1 ? "" : "s"} · run{" "}
                   {new Date(data.createdAt).toLocaleString()} ·{" "}
                   {String(data.config.model ?? "")} · topK{" "}
                   {String(data.config.topK ?? "")} · rerank{" "}
@@ -136,6 +141,12 @@ function Evaluation() {
                 </span>
               )}
             </div>
+            {data && data.questionCount === 1 && (
+              <p className="eval__caveat">
+                ⚠️ Scored on a single question — one solid data point, not a full
+                benchmark. Run a fuller set to get a multi-question average.
+              </p>
+            )}
           </div>
 
           {error && <p className="eval__error">{error}</p>}

@@ -139,6 +139,19 @@ export async function runEvals(asBaseline = false): Promise<void> {
   if (!res.ok && res.status !== 409) throw await toError(res);
 }
 
+/**
+ * GET /health — lightweight liveness ping used to keep the (free-tier) backend
+ * awake. Best-effort: never throws, so a sleeping/cold backend stays silent.
+ */
+export async function pingHealth(): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.health}`);
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 /** GET /health/ready — is the backend's vector store reachable? */
 export async function checkReady(): Promise<ReadinessResponse> {
   const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.ready}`);

@@ -9,6 +9,7 @@ interface Props {
   hasDocs: boolean;
   onInputChange: (value: string) => void;
   onSend: () => void;
+  onClear: () => void;
 }
 
 function ChatArea({
@@ -18,6 +19,7 @@ function ChatArea({
   hasDocs,
   onInputChange,
   onSend,
+  onClear,
 }: Props) {
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -41,6 +43,17 @@ function ChatArea({
 
   return (
     <section className="chat">
+      {messages.length > 0 && (
+        <div className="chat__topbar">
+          <button
+            className="chat__new"
+            onClick={onClear}
+            title="Clear this conversation and start fresh (keeps your uploaded reports)"
+          >
+            ＋ New chat
+          </button>
+        </div>
+      )}
       <div className="chat__messages">
         {messages.length === 0 ? (
           <div className="chat__empty">
