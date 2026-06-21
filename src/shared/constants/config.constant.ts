@@ -37,3 +37,9 @@ export const KEEPALIVE_INTERVAL_MS = Number(
 export const CHAT_CACHE_TTL_MS = Number(
   import.meta.env.VITE_CHAT_CACHE_TTL_MS ?? 7 * 24 * 60 * 60 * 1000
 );
+
+// ── Contact ──────────────────────────────────────────────────────────────────
+
+/** Recipient for the "Send feedback" mailto link. Override with VITE_CONTACT_EMAIL. */
+export const CONTACT_EMAIL =
+  import.meta.env.VITE_CONTACT_EMAIL ?? "sharmarajatraj1@gmail.com";

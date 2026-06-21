@@ -1,3 +1,4 @@
+import { CONTACT_EMAIL } from "../../../../shared/constants/config.constant";
 import "./Contact.css";
 
 function Contact() {
@@ -10,7 +11,7 @@ function Contact() {
         </p>
         <a
           className="btn btn-primary contact__btn"
-          href="mailto:neeraj.kumar@dynamatix.com?subject=FinQuery%20feedback"
+          href={`mailto:${CONTACT_EMAIL}?subject=FinQuery%20feedback`}
         >
           ✉️ Send feedback
         </a>
