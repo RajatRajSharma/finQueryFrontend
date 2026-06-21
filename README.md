@@ -4,7 +4,7 @@
 
 This repo is the **web app** (the face). The brains + API live in a separate **`finQueryBackend`** repo and run live in production — this app talks to it over the internet. It's a **React + TypeScript + Vite** single-page app.
 
-**🌐 Backend it talks to:** **https://finquerybackend.onrender.com** · API docs: **/docs**
+**🌐 Live app:** **https://finquery-frontend-virid.vercel.app** · **Backend it talks to:** https://finquerybackend.onrender.com (API docs: `/docs`)
 
 ---
 
@@ -25,6 +25,10 @@ Everything you upload or ask is **wired to the live backend** — uploads hit `P
 ---
 
 ## 2. Try it (no setup)
+
+**Just open the live app: https://finquery-frontend-virid.vercel.app** — it's already wired to the production backend, so you can upload a PDF and ask a question right away.
+
+To run it locally instead:
 
 ```bash
 npm install
