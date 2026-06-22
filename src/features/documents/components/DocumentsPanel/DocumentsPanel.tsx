@@ -78,15 +78,7 @@ function DocumentsPanel({ docs, onUpload, onRemove }: Props) {
               </span>
               {doc.status === "processing" ? (
                 <span className="docs__spinner" aria-label="Processing" />
-              ) : doc.status === "error" ? (
-                <span
-                  className="docs__error"
-                  aria-label="Failed"
-                  title={doc.detail}
-                >
-                  ✕
-                </span>
-              ) : (
+              ) : doc.status === "error" ? null : (
                 <span
                   className="docs__check"
                   aria-label="Ready"

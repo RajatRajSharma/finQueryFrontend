@@ -103,13 +103,6 @@
   flex-shrink: 0;
 }
 
-.docs__error {
-  color: #dc2626;
-  font-weight: 700;
-  flex-shrink: 0;
-  cursor: help;
-}
-
 /* remove button on each uploaded report */
 .docs__remove {
   display: inline-flex;
@@ -120,16 +113,16 @@
   height: 1.3rem;
   font-size: 0.8rem;
   line-height: 1;
-  color: var(--color-text-muted);
+  color: #dc2626;
+  font-weight: 700;
   background: transparent;
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  transition: color 0.15s ease, background 0.15s ease;
+  transition: background 0.15s ease;
 }
 
 .docs__remove:hover {
-  color: #dc2626;
   background: #fef2f2;
 }
 
