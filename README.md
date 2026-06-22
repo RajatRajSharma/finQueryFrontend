@@ -22,6 +22,12 @@ Three screens, one job each:
 
 Everything you upload or ask is **wired to the live backend** — uploads hit `POST /upload`, questions stream over `POST /query/stream`, the dashboard reads `GET /evals`.
 
+### The Chat screen
+
+![FinQuery Chat page](docs/chatPage.png)
+
+The **Chat** screen (`/app`) is the core experience: the **Documents** panel on the left (upload up to 3 reports, each showing a processing spinner → ✓ chunk count), and the **chat area** on the right where answers stream in live with **citation chips** (file · page · relevance %) underneath.
+
 ---
 
 ## 2. Try it (no setup)
