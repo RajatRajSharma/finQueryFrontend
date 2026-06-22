@@ -110,6 +110,29 @@
   cursor: help;
 }
 
+/* remove button on each uploaded report */
+.docs__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.3rem;
+  height: 1.3rem;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.docs__remove:hover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
 /* small spinner shown during "ingestion" */
 .docs__spinner {
   width: 14px;

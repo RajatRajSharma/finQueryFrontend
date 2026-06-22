@@ -7,9 +7,10 @@ import "./DocumentsPanel.css";
 interface Props {
   docs: DocItem[];
   onUpload: (files: FileList) => void;
+  onRemove: (id: string) => void;
 }
 
-function DocumentsPanel({ docs, onUpload }: Props) {
+function DocumentsPanel({ docs, onUpload, onRemove }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const atLimit = docs.length >= MAX_DOCS;
@@ -94,6 +95,15 @@ function DocumentsPanel({ docs, onUpload }: Props) {
                   ✓
                 </span>
               )}
+              <button
+                type="button"
+                className="docs__remove"
+                onClick={() => onRemove(doc.id)}
+                aria-label={`Remove ${doc.name}`}
+                title="Remove this report"
+              >
+                ✕
+              </button>
             </li>
           ))}
         </ul>

@@ -27,6 +27,24 @@ export class ApiError extends Error {
   }
 }
 
+/** Per-request retrieval overrides → query params on /query and /query/stream. */
+export interface QueryOptions {
+  useHybrid?: boolean;
+  useRerank?: boolean;
+}
+
+/** Turn QueryOptions into a "?use_hybrid=…&use_rerank=…" string (or ""). */
+function queryParams(opts?: QueryOptions): string {
+  if (!opts) return "";
+  const params = new URLSearchParams();
+  if (typeof opts.useHybrid === "boolean")
+    params.set("use_hybrid", String(opts.useHybrid));
+  if (typeof opts.useRerank === "boolean")
+    params.set("use_rerank", String(opts.useRerank));
+  const qs = params.toString();
+  return qs ? `?${qs}` : "";
+}
+
 /** Pull the backend's {detail} message out of a failed response. */
 async function toError(res: Response): Promise<ApiError> {
   let detail = `Request failed (${res.status})`;
@@ -54,13 +72,17 @@ export async function uploadPdf(file: File): Promise<IngestionResponse> {
 /** POST /query — ask a question, get a grounded answer + citations. */
 export async function askQuestion(
   question: string,
+  opts?: QueryOptions,
   topK?: number
 ): Promise<QueryResponse> {
-  const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.query}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question, top_k: topK ?? null }),
-  });
+  const res = await fetch(
+    `${API_BASE_URL}${API_ENDPOINTS.query}${queryParams(opts)}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, top_k: topK ?? null }),
+    }
+  );
   if (!res.ok) throw await toError(res);
   return (await res.json()) as QueryResponse;
 }
@@ -96,13 +118,17 @@ function dispatchEvent(block: string, handlers: StreamHandlers): boolean {
 export async function askQuestionStream(
   question: string,
   handlers: StreamHandlers,
+  opts?: QueryOptions,
   topK?: number
 ): Promise<void> {
-  const res = await fetch(`${API_BASE_URL}${API_ENDPOINTS.queryStream}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ question, top_k: topK ?? null }),
-  });
+  const res = await fetch(
+    `${API_BASE_URL}${API_ENDPOINTS.queryStream}${queryParams(opts)}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, top_k: topK ?? null }),
+    }
+  );
   if (!res.ok || !res.body) throw await toError(res);
 
   const reader = res.body.getReader();

@@ -3,8 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import AppHeader from "@/app/layout/AppHeader/AppHeader";
 import { DocumentsPanel } from "@/features/documents";
 import type { DocItem } from "@/features/documents";
-import { ChatArea } from "@/features/chat";
-import type { Message } from "@/features/chat";
+import { ChatArea, DEFAULT_CHAT_SETTINGS } from "@/features/chat";
+import type { Message, ChatSettings } from "@/features/chat";
 import { newId } from "@/shared/lib/id";
 import { uploadPdf, askQuestionStream, ApiError } from "@/shared/api/client";
 import { usePersistentState } from "@/shared/hooks/usePersistentState";
@@ -29,6 +29,13 @@ function Chat() {
   // read once on mount so we don't fight the user's later edits.
   const [input, setInput] = useState(() => searchParams.get("q") ?? "");
   const [busy, setBusy] = useState(false);
+  // Retrieval knobs (hybrid / rerank) the user flips from the input bar.
+  // Persisted so the choice survives reloads, like the rest of the chat state.
+  const [settings, setSettings] = usePersistentState<ChatSettings>(
+    "finquery.chat.settings",
+    DEFAULT_CHAT_SETTINGS,
+    CHAT_CACHE_TTL_MS
+  );
 
   // Restored state may hold work that was mid-flight when the app was last
   // closed/navigated away (the stream/upload didn't resume). Heal it once on
@@ -115,6 +122,12 @@ function Chat() {
     });
   }
 
+  // Remove a single uploaded report from the list on the spot. Local-only —
+  // the chat keeps working against whatever reports remain indexed.
+  function handleRemoveDoc(id: string) {
+    setDocs((prev) => prev.filter((d) => d.id !== id));
+  }
+
   // Start a fresh conversation. Keeps the uploaded docs (they're already indexed
   // in the backend) so the user doesn't have to re-upload — only the chat clears.
   function handleClear() {
@@ -163,7 +176,7 @@ function Chat() {
         })),
       onError: (msg) =>
         patch((m) => ({ ...m, pending: false, error: true, text: msg })),
-    })
+    }, { useHybrid: settings.useHybrid, useRerank: settings.useRerank })
       .catch((err: unknown) => {
         const msg =
           err instanceof ApiError
@@ -178,12 +191,18 @@ function Chat() {
     <div className="chat-page">
       <AppHeader />
       <div className="chat-page__body">
-        <DocumentsPanel docs={docs} onUpload={handleUpload} />
+        <DocumentsPanel
+          docs={docs}
+          onUpload={handleUpload}
+          onRemove={handleRemoveDoc}
+        />
         <ChatArea
           messages={messages}
           input={input}
           canChat={canChat}
           hasDocs={docs.length > 0}
+          settings={settings}
+          onSettingsChange={setSettings}
           onInputChange={setInput}
           onSend={handleSend}
           onClear={handleClear}
